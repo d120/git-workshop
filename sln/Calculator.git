@@ -1,0 +1,23 @@
+commit 6c573a202940cd79ec3e96173e732ecbb7e44935
+Author: John Doe <user@example.com>
+Date:   Tue Feb 21 11:14:04 2017 +0100
+
+    Added div function
+
+commit 000c4bbb5bdee42d1e1e3d7f336af3bfa6c9c081
+Author: John Doe <user@example.com>
+Date:   Tue Feb 21 11:13:49 2017 +0100
+
+    Added mul function
+
+commit 147b536fb75e3e101d16c5a2f4e1a61f7b21d244
+Author: John Doe <user@example.com>
+Date:   Tue Feb 21 11:13:31 2017 +0100
+
+    Added sub function
+
+commit d0ba0282960cbf6cce380dd1f43212b14dee7eda
+Author: John Doe <user@example.com>
+Date:   Tue Feb 21 11:13:10 2017 +0100
+
+    Added add function                                                                                                                                                      

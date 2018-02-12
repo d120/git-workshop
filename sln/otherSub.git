@@ -1,0 +1,20 @@
+commit 62ded1ef2cc976a8e18d338fd10ca40eeadb049b
+Author: John Doe <user@example.com>
+Date:   Tue Feb 21 11:22:42 2017 +0100
+
+    Fixed subtraction
+
+diff --git a/Calculator.java b/Calculator.java
+index fffd553..c022f1f 100644
+--- a/Calculator.java
++++ b/Calculator.java
+@@ -4,7 +4,7 @@ public class Calculator {
+     }
+     
+     int sub(int a, int b) {
+-        return a - b;
++        return -1*a + b;
+     }
+     
+     int mul(int a, int b) {
+

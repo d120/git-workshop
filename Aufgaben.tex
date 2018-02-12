@@ -1,0 +1,78 @@
+\documentclass[accentcolor=tud8b,colorbacktitle,12pt]{tudexercise}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{hyperref}
+\usepackage{ifthen}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{tabto}
+\usepackage{multicol}
+\usepackage{multirow}
+
+\definecolor{darkblue}{rgb}{0,0,.5}
+\hypersetup{colorlinks=true, breaklinks=true, linkcolor=darkblue, menucolor=darkblue, urlcolor=darkblue}
+
+\newcommand{\lstinlinenoit}[1]{\upshape{\lstinline|#1|}\itshape}
+\lstset{language=Lisp, basicstyle=\ttfamily\small, keywordstyle=\color{blue!80!black}, identifierstyle=, commentstyle=\color{green!50!black}, stringstyle=\ttfamily,
+ tabsize=4, breaklines=true, numbers=left, numberstyle=\small, frame=single, backgroundcolor=\color{blue!3}}
+\author{Janika Krull, Tim Pollandt basierend auf Material von Steffen Klee}
+
+
+\begin{document}
+\title{Git-Workshop\\Ofahrt 2017}
+\subtitle{Janika Krull, Tim Pollandt\\\tiny{basierend auf Material von Steffen Klee}}
+\maketitle
+
+\section{Einzelarbeit}
+\setcounter{subsection}{-1}
+\subsection{Installation \& Einrichtung}
+\begin{enumerate}
+	\item Git-Installer für Windows (64-Bit) sowie für macOS liegen unter \href{http://workshop.lan/}{http://workshop.lan/} bereit. Es gibt dort keine Linux-Pakete, da diese distributionsspezifisch sind.
+	\item Folgt den Anweisungen. Bei Fragen, fragt uns ;-).
+	\item Starte eine Git-Shell:
+	\begin{itemize}
+		\item Windows: Suche Git über das Startmenü ODER wähle in einem beliebigem Verzeichnis: \lstinline|Open Git Bash here|
+		\item Linux, macOS: Öffne ein(e) Terminal/Shell/Konsole/...
+	\end{itemize}
+	\item Setze entsprechend der Git-Befehlsreferenz den Editor und Autor.
+\end{enumerate}
+
+\subsection{Erste Schritte}
+Schreibe eine Prozedur \lstinline{add: number number -> number}, welche zwei Zahlen aufaddiert.
+Erstelle nun einen Commit mit deinen Änderungen.
+
+\subsection{Vervollständigung des Taschenrechners}
+Schreibe folgende Prozeduren und erstelle für \textbf{jede} einen eigenen Commit.
+\begin{itemize}
+	\item \lstinline{sub: number number -> number}, welche zwei Zahlen subtrahiert.
+	\item \lstinline{mul: number number -> number}, welche zwei Zahlen multipliziert.
+	\item \lstinline{div: number number -> number}, welche zwei Zahlen dividiert.
+\end{itemize}
+Lass dir nun die Änderungshistorie anzeigen.
+
+\subsection{Zusammenfassen}
+Fasse nun die letzten beiden Commits in einem zusammen, der die Commit-Message \textbf{Punktrechnung} hat.
+
+\section{Zeitreise}
+Es ist Weihnachten. Draußen schneit es. Bei Gebäck und Glühwein denkst du an Racket und deinen Erfolg aus Aufgabe 1. Du möchtest nun noch einmal sehen wie sich dein Taschenrechner in der Zeit entwickelt hat.
+\subsection{Differenz anzeigen}
+Mit \texttt{git log -{-}pretty=format:\%h} kann man sich die IDs der einzelnen Versionen anzeigen lassen. Lasse dir die Änderungen zwischen den letzten beiden Versionen anzeigen und überprüfe die Richtigkeit.
+
+\section{Gruppenarbeit}
+Finde eine*n Partner*in.
+Klont nun beide das Repository vom Server, für das ihr die Zugangsdaten erhalten habt.
+\subsection{Parallelisierung}
+Teilt die Implementierung folgender Prozeduren unter euch auf. Beachtet dafür folgendes Codeskelett (zu finden im Download-Bereich):
+\lstinputlisting{parallelism.rkt}
+Beginnt damit, zuerst die reine Aufgabenstellung ohne Lösungen zu commiten (das ist eine Best-Practice!).
+Danach committet jede*r die eigenen Änderungen und pusht diese dann auf den Server.
+Beachtet hierbei die genannten Hinweise.
+
+\subsection{Besserwisser}
+Ihr erkennt, dass die Berechnung nicht sonderlich genau ist, da die Genauigkeit von $\pi$ sehr gering ist.\\
+Um die Berechnung zu verbessern hat nun jede*r von euch den klugen Einfall, die Anzahl der Nachkommastellen von $\pi$ zu erhöhen. Ihr sprecht euch dabei aber nicht ab und fügt eine unterschiedliche Zahl Nachkommastellen hinzu (oder sogar ganz unterschiedliche Zahlen).\\
+Committet und pusht euer Ergebnis.\\\\
+Was und warum ist etwas passiert? Wie könnt ihr so ein Problem lösen und wie lässt es sich vermeiden?
+
+\end{document}

@@ -1,0 +1,86 @@
+\documentclass[accentcolor=tud8b,colorbacktitle,12pt]{tudexercise}
+
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{hyperref}
+\usepackage{ifthen}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{tabto}
+
+\definecolor{darkblue}{rgb}{0,0,.5}
+\hypersetup{colorlinks=true, breaklinks=true, linkcolor=darkblue, menucolor=darkblue, urlcolor=darkblue}
+
+\newcommand{\lstinlinenoit}[1]{\upshape{\lstinline|#1|}\itshape}
+\lstset{language=sh,basicstyle=\ttfamily\small, keywordstyle=\color{blue!80!black}, identifierstyle=, commentstyle=\color{green!50!black}, stringstyle=\ttfamily,
+ tabsize=4, breaklines=true, numbers=left, numberstyle=\small, frame=single, backgroundcolor=\color{blue!3}}
+ 
+\author{Janika Krull, Tim Pollandt basierend auf Material von Steffen Klees}
+
+
+\begin{document}
+\title{Git-Workshop\\Ofahrt 2017\\Git-Befehlsreferenz}
+\subtitle{Janika Krull, Tim Pollandt\\\tiny{basierend auf Material von Steffen Klee}}
+\maketitle
+
+\hskip 1 pt\\
+\textbf{Alle Befehle müssen in einem Git-Repository aufgeführt werden!}\\
+\textit{\lstinline|<name>| stellt einen Platzhalter dar. z.B. \lstinline|git add <datei>| $\rightarrow$ \lstinline|git add datei.txt|}
+\section*{Einrichtung}
+\begin{itemize}
+	\item Setze den Autor:\\
+	\lstinline|git config --global user.email "you@example.com"|\\
+	\lstinline|git config --global user.name "Your Name"|
+
+	\item Setze einen alternativen anfängerfreundlichen Editor:
+	\NumTabs{7}
+	\begin{itemize}
+		\item Windows: \tab\texttt{git config --global core.editor notepad}
+		\item Linux: \tab\texttt{git config --global core.editor nano}
+		\item macOS: \tab\texttt{git config --global core.editor textedit}
+	\end{itemize}
+\end{itemize}
+
+\section*{Begriffe}
+\NumTabs{7}
+\begin{itemize}
+	\item \textbf{Repository}\tab ein Git-Verzeichnis
+	\item \textbf{Commit}\tab ein Paket abgeschlossener Änderungen in der Historie
+	\item \textbf{ref}\tab z. B. ein \textit{Commit} oder \textit{Branch}
+\end{itemize}
+
+\section*{Allgemein}
+\begin{itemize}
+	\item \lstinline|git init|: Anlegen eines Git-Repositories. \textbf{Nicht} erforderlich, wenn man ein Repository klont (siehe Zusammenarbeit)
+	\item \lstinline|git status|: Zeigt an, welche Änderungen im Repository für den Commit vorgemerkt sind.
+	\item \lstinline|git add <datei>|: Fügt Änderungen zu einem Commit hinzu
+	\item \lstinline|git rm <datei>|: Löscht eine Datei sowohl aus dem Verzeichnis als auch vom Repository.
+	\item \lstinline|git commit|: Schreibt Änderungen in die Historie
+	\item \lstinline|git commit --amend|: Schreibt den letzten Commit um (Beschreibung, Änderungen, etc.)
+	\item \lstinline|git log|: Zeigt die Historie/Commits an
+	\item \lstinline|git show <ref>|: Zeigt Informationen zu einer bestimmten ref an (inkl. Änderungen)
+	\item \lstinline|git checkout <ref>|: Setzt das Git-Repository auf eine bestimmte ref
+	\item \lstinline|git diff <ref>..<ref>|: Zeigt die Änderungen (pro Datei) von einer ref zu einer anderen ref an.
+\end{itemize}
+
+\section*{Zusammenarbeit}
+\begin{itemize}
+	\label{CollabClone}
+	\item \lstinline|git clone <url>|: Klont das Git-Repository von einem Server
+	\item \lstinline|git push|: Lädt Commits auf den Server hoch
+	\item \lstinline|git pull|: Lädt Änderungen vom Server herunter (merged ggf. automatisch oder produziert Merge-Konflikte)
+	\item \lstinline|git rebase -i HEAD|$\sim$\lstinline|<Nummer>|: Z. B. zum Zusammenfassen mehrerer Commits
+\end{itemize}
+
+\section*{.gitignore}
+Wenn man manche Dateien nicht versionieren möchte, kann man diese auf eine Ignorierliste setzen. Dafür wir deine \lstinline|.gitignore|-Datei verwendet.\\
+\textbf{Achtung:} Diese Datei hat keinen Dateinamen, nur eine Dateiendung. Unter Windows ist die Erstellung solch einer Datei im Windows-Explorer nicht möglich. Dafür muss die Datei direkt aus Notepad gespeichert werden, wähle dabei \textbf{keine} Dateiendung aus der Liste aus.\\
+Die Datei enthält die Namen von zu ignorierenden Dateien, dabei können auch Verzeichnisnamen oder "`Wildcards"' verwendet werden.\\
+\\
+Beispielhafter Inhalt:
+\lstinputlisting{example.gitignore}
+\end{document}

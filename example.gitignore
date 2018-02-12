@@ -1,0 +1,10 @@
+# kompilierte Java-Dateien ausschliessen
+*.class
+
+# Export-Daten nicht synchronisieren
+exportiert/
+# Datei, die doch synchronisiert werden soll
+!exportiert/manuellErstellteDatei.tpt
+
+# eine bestimmte ausgeschlossene Datei
+zeugs/nichtFuerAndereRelevantes.tpt

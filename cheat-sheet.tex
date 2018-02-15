@@ -23,8 +23,9 @@
 
 
 \begin{document}
-\title{Git-Workshop\\Ofahrt 2017\\Git-Befehlsreferenz}
-\subtitle{Janika Krull, Tim Pollandt\\\tiny{basierend auf Material von Steffen Klee}}
+\title{Versionsverwaltung mit Git\\Befehlsreferenz}
+\subtitle{Fachschaft Informatik, TU Darmstadt}
+\subsubtitle{Stand: \today}
 \maketitle
 
 \hskip 1 pt\\
@@ -39,9 +40,9 @@
 	\item Setze einen alternativen anfängerfreundlichen Editor:
 	\NumTabs{7}
 	\begin{itemize}
-		\item Windows: \tab\texttt{git config --global core.editor notepad}
-		\item Linux: \tab\texttt{git config --global core.editor nano}
-		\item macOS: \tab\texttt{git config --global core.editor textedit}
+		\item Linux: \tab\lstinline|git config --global core.editor nano|
+		\item macOS: \tab\lstinline|git config --global core.editor textedit|
+		\item Windows: \tab\lstinline|git config --global core.editor notepad|
 	\end{itemize}
 \end{itemize}
 
@@ -50,21 +51,22 @@
 \begin{itemize}
 	\item \textbf{Repository}\tab ein Git-Verzeichnis
 	\item \textbf{Commit}\tab ein Paket abgeschlossener Änderungen in der Historie
-	\item \textbf{ref}\tab z. B. ein \textit{Commit} oder \textit{Branch}
+	\item \textbf{ref}\tab z. B. ein \textit{Commit}
 \end{itemize}
 
 \section*{Allgemein}
 \begin{itemize}
-	\item \lstinline|git init|: Anlegen eines Git-Repositories. \textbf{Nicht} erforderlich, wenn man ein Repository klont (siehe Zusammenarbeit)
+	\item \lstinline|git init|: Anlegen eines Git-Repositories. \textbf{Nicht} erforderlich, wenn man ein Repository klont (siehe Zusammenarbeit).
 	\item \lstinline|git status|: Zeigt an, welche Änderungen im Repository für den Commit vorgemerkt sind.
-	\item \lstinline|git add <datei>|: Fügt Änderungen zu einem Commit hinzu
+	\item \lstinline|git add <datei>|: Fügt Änderungen zu einem Commit hinzu.
 	\item \lstinline|git rm <datei>|: Löscht eine Datei sowohl aus dem Verzeichnis als auch vom Repository.
-	\item \lstinline|git commit|: Schreibt Änderungen in die Historie
-	\item \lstinline|git commit --amend|: Schreibt den letzten Commit um (Beschreibung, Änderungen, etc.)
-	\item \lstinline|git log|: Zeigt die Historie/Commits an
-	\item \lstinline|git show <ref>|: Zeigt Informationen zu einer bestimmten ref an (inkl. Änderungen)
-	\item \lstinline|git checkout <ref>|: Setzt das Git-Repository auf eine bestimmte ref
+	\item \lstinline|git commit|: Schreibt Änderungen in die Historie.
+	\item \lstinline|git commit --amend|: Schreibt den letzten Commit um (Beschreibung, Änderungen, etc.).
+	\item \lstinline|git log|: Zeigt die Historie/Commits an.
+	\item \lstinline|git show <ref>|: Zeigt Informationen zu einer bestimmten ref an (inkl. Änderungen).
+	\item \lstinline|git checkout <ref>|: Setzt das Git-Repository auf eine bestimmte ref.
 	\item \lstinline|git diff <ref>..<ref>|: Zeigt die Änderungen (pro Datei) von einer ref zu einer anderen ref an.
+	\item \lstinline|git revert <commit>|: Macht einen Commit rückgängig (erstellt neuen Commit, der alten überschreibt).
 \end{itemize}
 
 \section*{Zusammenarbeit}
@@ -73,7 +75,6 @@
 	\item \lstinline|git clone <url>|: Klont das Git-Repository von einem Server
 	\item \lstinline|git push|: Lädt Commits auf den Server hoch
 	\item \lstinline|git pull|: Lädt Änderungen vom Server herunter (merged ggf. automatisch oder produziert Merge-Konflikte)
-	\item \lstinline|git rebase -i HEAD|$\sim$\lstinline|<Nummer>|: Z. B. zum Zusammenfassen mehrerer Commits
 \end{itemize}
 
 \section*{.gitignore}

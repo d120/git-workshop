@@ -1,4 +1,4 @@
-all: slides exercises cheatsheet
+all: slides exercises cheatsheet solutions
 	
 
 slides: Vortrag.tex
@@ -6,10 +6,17 @@ slides: Vortrag.tex
 	pdflatex -shell-escape Vortrag
 	pdflatex -shell-escape Vortrag
 	
-exercises: Aufgaben.tex
-	pdflatex -shell-escape Aufgaben
-	pdflatex -shell-escape Aufgaben
-	pdflatex -shell-escape Aufgaben
+exercises: Aufgaben-gen.tex
+	pdflatex -shell-escape Aufgaben-gen
+	pdflatex -shell-escape Aufgaben-gen
+	pdflatex -shell-escape Aufgaben-gen
+	mv Aufgaben-gen.pdf Aufgaben.pdf
+
+solutions: Aufgaben-gen.tex
+	pdflatex -shell-escape "\def\mksln{1} \input{Aufgaben-gen.tex}"
+	pdflatex -shell-escape "\def\mksln{1} \input{Aufgaben-gen.tex}"
+	pdflatex -shell-escape "\def\mksln{1} \input{Aufgaben-gen.tex}"
+	mv Aufgaben-gen.pdf Aufgaben-Lösungen.pdf
 
 cheatsheet: cheat-sheet.tex
 	pdflatex -shell-escape cheat-sheet

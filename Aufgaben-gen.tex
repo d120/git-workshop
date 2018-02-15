@@ -17,8 +17,9 @@
  tabsize=4, breaklines=true, numbers=left, numberstyle=\small, frame=single, backgroundcolor=\color{blue!3}}
 
 % generate solutions
-\newboolean{sln}\setboolean{sln}{True}
-\newcommand{\sln}[1]{\ifthenelse{\boolean{sln}}{\subsubsection*{Antwort}{\itshape #1}}{}}
+%\def\mksln{1}
+
+\newcommand{\sln}[1]{\ifdefined\mksln \subsubsection*{Antwort}{\itshape #1} \fi}
 \newcommand{\task}[1]{\input{task/#1}\IfFileExists{./task/#1}{\sln{\input{sln/#1}}}{\ClassError{Vorkurs-TeX}{No solution specified for task #1}{Add solution file #1.tex or #1.java}}}
 
 

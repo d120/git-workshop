@@ -1,0 +1,616 @@
+% !TeX document-id = {8f28539b-0e77-467c-988f-5fbde5f3c76b}
+% !TeX TXS-program:compile = txs:///pdflatex/[--shell-escape]
+\documentclass[accentcolor=tud8b,colorbacktitle,inverttitle,landscape,german,presentation,t]{tudbeamer}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{graphicx}
+\usepackage{svg}
+\usepackage{listings}
+\usepackage{tabto}
+\usepackage{tikz}
+\usepackage{pgfpages}
+\usetikzlibrary{shapes}
+
+
+% notes
+\setbeamertemplate{note page}[plain]
+\setbeameroption{show notes on second screen=right}
+
+% only display outmost section
+\setcounter{tocdepth}{2}
+
+
+\definecolor{darkblue}{rgb}{0,0,.5}
+%\hypersetup{colorlinks=true, breaklinks=true, linkcolor=darkblue, menucolor=darkblue, urlcolor=darkblue}
+\graphicspath{{media/}}
+
+\lstset{language=sh,basicstyle=\ttfamily\small, keywordstyle=\color{blue!80!black}, identifierstyle=, commentstyle=\color{green!50!black}, stringstyle=\ttfamily,
+	tabsize=4, breaklines=true, numbers=left, numberstyle=\small, frame=single, backgroundcolor=\color{blue!3}}
+
+\newcommand{\diffp}[1]{\textcolor{darkgreen}{+} & \textcolor{darkgreen}{#1}}
+\newcommand{\diffm}[1]{\textcolor{red}{-} & \textcolor{red}{#1}}
+\newcommand{\diffn}[1]{\textcolor{darkgreen}{#1}}
+\newcommand{\flownumber}[1]{\textcolor{orange}{#1.}\enspace}
+
+
+\begin{document}
+\title[Git-Workshop]{How to git gud!\\Einführung in die Quellcodeverwaltung mit Git}
+\subtitle{Fachschaft Informatik}
+
+\author[]{}
+\institute[Fachschaft Informatik, TU Darmstadt]{Fachschaft Informatik, TU Darmstadt}
+
+\logo[1]{\includegraphics{bildmarke_ohne_rand}}
+
+\date{\today}
+
+
+
+\begin{titleframe}
+	\makebox(1,28)[]{}
+	\begin{figure}[ht]
+	\centering
+  	\includegraphics[height=60px]{git_logo}
+	\end{figure}
+
+	\vskip0pt plus 1filll
+	\small Vortragende: Steffen Klee, Tim Pollandt
+	\vskip -1em
+\end{titleframe}
+
+\begin{frame}
+\frametitle{Übersicht}
+\tableofcontents
+\end{frame}
+
+
+\section{Warum Git?}
+		\begin{frame}
+			\frametitle{Warum Quellcodeverwaltung?}
+				\begin{tikzpicture}[remember picture, note/.style={ellipse callout, fill=red!50}]
+    				\node [note=blue!50, text width=3.5cm, opacity=0.90, overlay, callout absolute pointer={(-0.3,-2)}] at (3,-0.2) {Ich habe euch meinen Code doch per E-Mail geschickt.};
+  				\end{tikzpicture}
+  				\begin{tikzpicture}[remember picture, note/.style={ellipse callout, fill=green!50}]
+    				\node [note=blue!50, text width=4cm, opacity=0.90, overlay, callout absolute pointer={(12.3,-2)}] at (8.5,-1.5) {Nein, die andere E-Mail!};
+  				\end{tikzpicture}
+		\end{frame}
+
+		\begin{frame}
+			\frametitle{Warum Quellcodeverwaltung?}
+				\begin{tikzpicture}[remember picture, note/.style={ellipse callout, fill=red!50}]
+    				\node [note=blue!50, text width=3.5cm, opacity=0.90, overlay, callout absolute pointer={(-0.3,-2)}] at (3,-0.2) {Ich habe euch meinen Code doch per E-Mail geschickt.};
+  				\end{tikzpicture}
+  				\begin{tikzpicture}[remember picture, note/.style={ellipse callout, fill=green!50}]
+    				\node [note=blue!50, text width=4cm, opacity=0.90, overlay, callout absolute pointer={(12.3,-2)}] at (8.5,-1.5) {Nein, die andere E-Mail!};
+  				\end{tikzpicture}
+  				
+  				\begin{tikzpicture}[remember picture, note/.style={ellipse callout, fill=red!50}]
+    				\node [note=blue!50, text width=3.5cm, opacity=0.90, overlay, callout absolute pointer={(-0.3,-2)}] at (3,-3) {Jaja, ich lege es gleich in die Cloud.};
+  				\end{tikzpicture}
+  				\begin{tikzpicture}[remember picture, note/.style={ellipse callout, fill=green!50}]
+    				\node [note=blue!50, text width=3.5cm, opacity=0.90, overlay, callout absolute pointer={(12.3,-2)}] at (8.5,-4) {Ach, ihr habt die Datei auch geändert???};
+  				\end{tikzpicture}
+		\end{frame}
+		
+		\begin{frame}
+			    \frametitle{Warum Quellcodeverwaltung?}
+			    	\begin{tikzpicture}[remember picture, note/.style={ellipse callout, fill=yellow!50}]
+    				\node [note=blue!50, text width=4.3cm, opacity=0.90, overlay, callout absolute pointer={(3,-4)}] at (6,-2) {Das ging doch mal!\\Wer hat das denn geändert?\\Am liebsten hätte ich wieder den Stand von gestern.};
+  				\end{tikzpicture}
+		\end{frame}
+		
+		\begin{frame}
+			\frametitle{Darum Quellcodeverwaltung!}
+				\begin{itemize}
+					\item zentrales Quellcodeverzeichnis
+					\item offline (und online)
+					\item gleichzeitige Bearbeitung: Lösung von Versionskonflikten
+					\item Versionshistorie (Author, Zeit)
+				\end{itemize}
+			\vskip 4em
+			\begin{block}{Insgesamt:}
+				Vereinfachte Zusammenarbeit
+			\end{block}
+						
+		\note{
+			- offline verwalten: Dateien vollständig vorhanden\\
+			- Versionshistorie:
+			\begin{itemize}
+				\item Wer hat wann was gemacht?
+				\item Wiederherstellung alter Versionen und Rückgängigmachen einzelner Änderungen
+			\end{itemize}
+		}
+		\end{frame}
+		\begin{frame}
+			\frametitle{Warum Git?}
+				\begin{itemize}
+					\item weit verbreitet
+				% Linux, Eclipse
+					\item das im \textit{Open Source}-Bereich oft genutzte \textbf{GitHub} basiert auf Git
+					\item auf \href{https://scm.informatik.tu-darmstadt.de}{https://scm.informatik.tu-darmstadt.de} verfügbar
+					\item auf eigenen Servern leicht zu hosten
+					\item[\checkmark] Just do Git!
+					\item Alternativen sind zum Beispiel \textbf{Mercurial} und \textbf{SVN}
+				\end{itemize}
+			
+			\note{
+				weit verbreitet: Linux, Eclipse
+			}
+		\end{frame}
+		
+\section{Funktionsweise}
+	 \subsection{Normalfall}
+		\begin{frame}
+			\frametitle{Funktionsweise}
+				\vskip -1em
+				\begin{tikzpicture}
+					\definecolor{lightblue}{HTML}{7F7FFF}
+					\definecolor{darkgreen}{HTML}{00A700}
+					% timeline
+					\draw[very thick] (0,0) -- (0, 5.9);
+					
+					% commit diamonds
+					\draw<4->[very thick,blue,fill=lightblue] (0,0.5) -- (0.2,0.7) -- (0,0.9) -- (-0.2,0.7) -- (0,0.5);
+					\draw<3->[very thick,blue,fill=lightblue] (0,2.03) -- (0.2,2.23) -- (0,2.43) -- (-0.2,2.23) -- (0,2.03);
+					\draw<2->[very thick,blue,fill=lightblue] (0,3.57) -- (0.2,3.77) -- (0,3.97) -- (-0.2,3.77) -- (0,3.57);
+					\draw<1->[very thick,blue,fill=lightblue] (0,5) -- (0.2,5.2) -- (0,5.4) -- (-0.2,5.2) -- (0,5);
+					
+					% commit hashes
+					\node<4->[anchor=west] at (-2,0.69) {\texttt{54cdb2c}};
+					\node<3->[anchor=west] at (-2,2.22) {\texttt{f39a8c8}};
+					\node<2->[anchor=west] at (-2,3.76) {\texttt{7854994}};
+					\node<1->[anchor=west] at (-2,5.19) {\texttt{1f42b40}};
+					
+					% commit message
+					\node<4->[anchor=west] at (0.5,0.69) {\textbf{Revert: Implemented add}};
+					\node<4->[anchor=west] at (0.5,0.29) {We do not need to implement};
+					\node<4->[anchor=west] at (0.5,0) { this for the first assignment.};
+					\node<3->[anchor=west] at (0.5,2.22) {\textbf{Implemented sub}};
+					\node<2->[anchor=west] at (0.5,3.76) {\textbf{Implemented add}};
+					\node<2->[anchor=west] at (0.5,3.36) {Solved task 1};
+					\node<1->[anchor=west] at (0.5,5.19) {\textbf{Initial commit}};
+					
+					% commit diffs
+					
+					%% 1st commit
+					\node<1->[draw,fill=white,anchor=west] at (3.5,5.15) {\footnotesize\texttt{
+						\begin{tabular}{rl}
+							\diffp{(define (add a b)} \\
+							\diffp{;;TODO implement}\\
+							\diffp{)}\\
+							\diffp{(define (sub a b)} \\
+							\diffp{;;TODO implement}\\
+							\diffp{)}
+						\end{tabular}}};
+						
+					%% 2nd commit
+					\node<2->[draw,fill=white,anchor=west] at (6,4) {\small\texttt{
+						\begin{tabular}{rl}
+							&(define (add a b) \\
+							\diffm{;;TODO implement} \\
+							\diffp{\hspace*{0.5cm}(+ a b)}\\
+							&)
+						\end{tabular}}};
+	
+					%% 3rd commit
+					\node<3->[draw,fill=white,anchor=west] at (4,2.35) {\small\texttt{
+						\begin{tabular}{rl}
+							&(define (sub a b) \\
+							\diffm{;;TODO implement} \\
+							\diffp{\hspace*{0.5cm}(- a b)}\\
+							&)
+						\end{tabular}}};
+					
+					%% 4th commit
+					\node<4->[draw,fill=white,anchor=west] at (6,0.7) {\small\texttt{
+						\begin{tabular}{rl}
+							& (define (add a b) \\
+							\diffp{;;TODO implement} \\
+							\diffm{\hspace*{0.5cm}(+ a b)}\\
+							&)
+	  					\end{tabular}}};
+  				\end{tikzpicture}
+  				
+  				\note{Erklärung zu Diff-Darstellung}
+		\end{frame}
+		\begin{frame}
+			\frametitle{Schritte in Git (Normalfall)}
+					\makebox(1,136)[]{}
+					\centering
+					\begin{tikzpicture}
+						\definecolor{darkgreen}{HTML}{00A700}
+						
+						\node [cloud,fill=blue!30,draw,cloud puffs=9,cloud puff arc=150,aspect=2,inner ysep=0.8em] at (0.35,3.5) {Server};
+						\node [cylinder,cylinder uses custom fill,cylinder body fill=yellow!50,cylinder end fill=yellow!30,shape border rotate=90,aspect=0.25,draw] at (0.35,0.3) {lokales Verzeichnis};
+						
+						% document
+						\draw (-5,0) -- (-5,1.2) -- (-4.3,1.2) -- (-4.3,0.8) -- (-4,0.8) -- (-4,0) -- cycle;
+						\draw (-4.3,1.2) -- (-4,0.8);
+						\foreach \y in {0.2,0.4,0.6}{
+     						\draw (-4.8,\y) -- (-4.2,\y);
+							\draw (-4.8,0.8) -- (-4.4,0.8);
+							\draw (-4.8,1) -- (-4.4,1);
+						}
+					
+						% user
+						\node at (-8.4,0.8) {\includegraphics[width=1.5cm]{pingu-pc}};
+						
+						% flowchart
+						\draw[<-,very thick,red] (-7.4,0.7) -- (-5.2,0.7);
+						\draw[->,very thick,darkgreen] (-7.4,0.4) -- (-5.2,0.4);
+						\node[anchor=west] at (-7.35,0.95) {\flownumber{2}\textit{bearbeiten}};
+						\node[anchor=west] at (-7.35,0.15) {\flownumber{3}\texttt{git add}};
+						
+						\draw[<-,very thick,red] (-3.8,0.7) -- (-1.3,0.7);
+						\draw[->,very thick,darkgreen] (-3.8,0.4) -- (-1.35,0.4);
+						\node[anchor=west] at (-3.85,0.95) {};
+						\node[anchor=west] at (-3.85,0.15) {\flownumber{4}\texttt{git commit}};
+						
+						\draw[<-,very thick,red] (0.2,0.9) -- (0.2,2.6);
+						\draw[->,very thick,darkgreen] (0.5,0.9) -- (0.5,2.6);
+						\node[anchor=east] at (0.15,2) {\flownumber{1}\texttt{git pull}};
+						\node[anchor=west] at (0.55,2) {\flownumber{5}\texttt{git push}};
+					\end{tikzpicture}
+		\end{frame}
+	
+	\begin{frame}
+		DEMO
+		\note{git checkout für git log}
+	\end{frame}
+
+	\subsection{Abweichungen vom Normalfall}
+		\subsubsection{Gleichzeitig bearbeitet}
+			\begin{frame}
+				\frametitle{Gleichzeitiges Bearbeiten}
+					\centering
+					\vskip -1.2em
+					\begin{tikzpicture}
+					\definecolor{lightblue}{HTML}{7F7FFF}
+					\definecolor{darkgreen}{HTML}{00A700}
+					
+					\draw[very thick] (0,2.35) -- (0, 5.9);
+					\draw[very thick] (0,5.2) -- (2.15, 3.05);
+					\draw[very thick] (2.15,3.05) -- (2.15, 2.35);
+					\draw[very thick,blue,fill=lightblue] (0,2.85) -- (0.2,3.05) -- (0,3.25) -- (-0.2,3.05) -- (0,2.85);
+					\draw[very thick,blue,fill=lightblue] (0,5) -- (0.2,5.2) -- (0,5.4) -- (-0.2,5.2) -- (0,5);
+					\draw[very thick,blue,fill=lightblue] (2.15,2.85) -- (2.35,3.05) -- (2.15,3.25) -- (1.95,3.05) -- (2.15,2.85);
+					
+					% labels
+					\node[very thick] at (0,6.3) {\textbf{A}};
+					\node[very thick] at (2.15,6.3) {\textbf{B}};
+					
+					\node[draw,anchor=east] at (-0.5,3) {\small\texttt{
+						\begin{tabular}{rl}
+							&(define (sub a b) \\
+							\diffm{;;TODO implement} \\
+							\diffp{\hspace*{0.5cm}(- a b)}\\
+							&)
+						\end{tabular}}};
+					
+					\node[draw,anchor=west] at (2.65,3) {\small\texttt{
+						\begin{tabular}{rl}
+							&(define (add a b) \\
+							\diffm{;;TODO implement} \\
+							\diffp{\hspace*{0.5cm}(+ a b)}\\
+							&)
+						\end{tabular}}};
+					
+					\node[draw,anchor=east] at (-0.5,5.2) {\small\texttt{
+						\begin{tabular}{rl}
+							\diffp{(define (add a b)} \\
+							\diffp{;;TODO implement}\\
+							\diffp{)}\\
+							\diffp{(define (sub a b)} \\
+							\diffp{;;TODO implement}\\
+							\diffp{)}
+						\end{tabular}}};
+				\end{tikzpicture}
+			\end{frame}
+			
+			\begin{frame}
+				\frametitle{Gleichzeitiges Bearbeiten}
+					\centering
+					\vskip -1.2em
+					\begin{tikzpicture}
+					\definecolor{lightblue}{HTML}{7F7FFF}
+					\definecolor{darkgreen}{HTML}{C07700}
+					
+					\draw[very thick] (0,2.35) -- (0, 5.9);
+					\draw[very thick] (0,5.2) -- (2.15, 3.05);
+					\draw[very thick] (2.15,3.05) -- (2.15, 2.35);
+					\draw[very thick,blue,fill=lightblue] (0,2.85) -- (0.2,3.05) -- (0,3.25) -- (-0.2,3.05) -- (0,2.85);
+					\draw[very thick,blue,fill=lightblue] (0,5) -- (0.2,5.2) -- (0,5.4) -- (-0.2,5.2) -- (0,5);
+					\draw[very thick,blue,fill=lightblue] (2.15,2.85) -- (2.35,3.05) -- (2.15,3.25) -- (1.95,3.05) -- (2.15,2.85);
+					
+					% labels
+					\node[very thick] at (0,6.3) {\textbf{A}};
+					\node[very thick] at (2.15,6.3) {\textbf{B}};
+					
+					\node[draw,anchor=west] at (2.65,4) {\texttt{
+						\begin{tabular}{l}
+							(define (add a b) \\
+							\diffn{\hspace*{0.5cm}(+ a b)}\\
+							)\\
+							(define (sub a b)\\
+							;;TODO implement \\
+							)
+						\end{tabular}}};
+					
+					\node[draw,anchor=east] at (-0.5,2) {\texttt{
+						\begin{tabular}{l}
+							(define (add a b) \\
+							;;TODO implement\\
+							)\\
+							(define (sub a b) \\
+							\diffn{\hspace*{0.5cm}(- a b)}\\
+							)
+						\end{tabular}}};
+					
+					\node[draw,anchor=east] at (-0.5,5.2) {	\small\texttt{
+						\begin{tabular}{l}
+							\diffn{(define (add a b)} \\
+							\diffn{;;TODO implement}\\
+							\diffn{)}\\
+							\diffn{(define (sub a b))}\\
+							\diffn{;;TODO implement}\\
+							\diffn{)}
+						\end{tabular}}};
+				\end{tikzpicture}
+			\end{frame}
+			
+			\begin{frame}
+				\frametitle{Gleichzeitiges Bearbeiten}
+					\centering
+					\vskip -1.2em
+					\begin{tikzpicture}
+					\definecolor{lightblue}{HTML}{7F7FFF}
+					\definecolor{darkgreen}{HTML}{C07700}
+					\draw[very thick] (0,0) -- (0, 5.9);
+					\draw[very thick] (0,5.2) -- (2.15, 3.05);
+					\draw[very thick] (0,0.7) -- (2.15, 3.05);
+					\draw[very thick,blue,fill=lightblue] (0,0.5) -- (0.2,0.7) -- (0,0.9) -- (-0.2,0.7) -- (0,0.5);
+					\draw[very thick,blue,fill=lightblue] (0,2.85) -- (0.2,3.05) -- (0,3.25) -- (-0.2,3.05) -- (0,2.85);
+					\draw[very thick,blue,fill=lightblue] (0,5) -- (0.2,5.2) -- (0,5.4) -- (-0.2,5.2) -- (0,5);
+					\draw[very thick,blue,fill=lightblue] (2.15,2.85) -- (2.35,3.05) -- (2.15,3.25) -- (1.95,3.05) -- (2.15,2.85);
+					
+					% labels
+					\node[very thick] at (0,6.3) {\textbf{A}};
+					\node[very thick] at (2.15,6.3) {\textbf{B}};
+					
+					
+					\node[draw,anchor=west] at (2.65,4) {\small\texttt{
+						\begin{tabular}{l}
+							(define (add a b) \\
+							\diffn{\hspace*{0.5cm}(+ a b)}\\
+							)\\
+							(define (sub a b) \\ 
+							;;TODO implement \\
+							)
+						\end{tabular}}};
+					
+					\node[draw,anchor=east] at (-0.5,2.5) {\small\texttt{
+						\begin{tabular}{l} (define (add a b) \\ 
+							;;TODO implement\\ 
+							)\\ 
+							(define (sub a b) \\ 
+							\diffn{\hspace*{0.5cm}(- a b)}\\ 
+							)
+						\end{tabular}}};
+					
+					\node[draw,anchor=east] at (-0.5,5.2) {\small\texttt{
+						\begin{tabular}{l}
+							\diffn{(define (add a b)} \\ 
+							\diffn{;;TODO implement}\\ 
+							\diffn{)}\\ 
+							\diffn{(define (sub a b))} \\ 
+							\diffn{;;TODO implement}\\ 
+							\diffn{)}
+						\end{tabular}}};
+						
+					\node[draw,anchor=west] at (1.8,1) {\small\texttt{
+						\begin{tabular}{l}
+							(define (add a b) \\ 
+							  \diffn{\hspace*{0.5cm}(+ a b)}\\
+							)\\ 
+							(define (sub a b) \\ 
+							  \diffn{\hspace*{0.5cm}(- a b)}\\
+							)
+						\end{tabular}}};
+				\end{tikzpicture}
+			\end{frame}
+		
+			\begin{frame}
+				\frametitle{Versionen zusammenführen (\textit{merge})}
+				Reihenfolge ist wichtig!\\ Wenn das Remote-Repository zwischendurch geändert wurde:
+				\begin{enumerate}
+					\item \texttt{git pull}:\\Änderungen vom Server empfangen und zusammenführen
+					\item \texttt{git push}:\\Die zusammengeführte Version auf den Server übertragen
+				\end{enumerate}
+			\end{frame}
+	
+			\begin{frame}
+				\frametitle{Gleichzeitiges Bearbeiten}
+				Wir nehmen den folgenden Fall an:
+				\begin{enumerate}
+					\item \textbf{Alice} lädt Änderungen auf Computer \textbf{A} herunter (\textit{git pull}).
+					\pause
+					\item \textbf{Bob} lädt Änderungen auf Computer \textbf{B} herunter (\textit{git pull}).
+					\pause
+					\item \textbf{Alice} und \textbf{Bob} bearbeiten verschiedene Dateien und committen diese.
+					\pause
+					\item \textbf{Alice} lädt ihre Änderungen hoch (\textit{git push}).
+					\pause
+					\item \textbf{Bob } versucht seine Änderungen hochzuladen (\textit{git push}).
+					\pause
+					\item [\textbf{Error}] (beide Verzeichnisse wurden bearbeitet)
+				\end{enumerate}
+				
+				Da Bobs Änderung noch auf der Version vor Alice' Änderung basiert,\\
+				kann sie nicht einfach übertragen werden (um nichts zu überschreiben).\\
+				\begin{itemize}
+					\item \textbf{Lösung:} Versionen lokal zusammenführen
+				\end{itemize}
+			\end{frame}
+		
+		\begin{frame}
+			Demo
+		\end{frame}
+			
+		\subsubsection{Merge-Konflikte}
+			\begin{frame}
+				\frametitle{Merge-Konflikt}
+					\begin{itemize}
+						\item Änderungen in der gleichen Zeile gleicher Datei\\
+						$\Rightarrow$ Git kann Versionen nicht automatisch zusammenführen
+						\item manuell \textit{Merge-Konflikt} beheben
+					\end{itemize}
+			\end{frame}
+			
+			\begin{frame}
+				\frametitle{Merge-Konflikt}
+					\centering
+					\vskip -1.2em
+					\begin{tikzpicture}
+					\definecolor{lightblue}{HTML}{7F7FFF}
+					\definecolor{darkgreen}{HTML}{C07700}
+					\draw[very thick] (0,0) -- (0, 5.9);
+					\draw[very thick] (0,5.2) -- (2.15, 3.05);
+					\draw[very thick, dashed] (0,0.7) -- (1, 1.79);
+					\draw[very thick] (1.25, 2.07) -- (2.15, 3.05);
+					\draw[very thick,red,fill=lightblue] (0,0.5) -- (0.2,0.7) -- (0,0.9) -- (-0.2,0.7) -- (0,0.5);
+					\draw[very thick,blue,fill=lightblue] (0,2.85) -- (0.2,3.05) -- (0,3.25) -- (-0.2,3.05) -- (0,2.85);
+					\draw[very thick,blue,fill=lightblue] (0,5) -- (0.2,5.2) -- (0,5.4) -- (-0.2,5.2) -- (0,5);
+					\draw[very thick,blue,fill=lightblue] (2.15,2.85) -- (2.35,3.05) -- (2.15,3.25) -- (1.95,3.05) -- (2.15,2.85);
+					\draw[->,>=stealth,very thick, red] (1.25,2.5)--++(-0.3,-0.7)--++(0.4,0.25)--++(-0.3,-0.7);
+					
+					% labels
+					\node[very thick] at (0,6.3) {\textbf{A}};
+					\node[very thick] at (2.15,6.3) {\textbf{B}};
+					
+					
+					\node[draw,anchor=west] at (2.65,3) {\texttt{\begin{tabular}{l} (define (add a b) \\ \textcolor{darkgreen}{\hspace*{0.5cm}(+ a b)}\\)\\(define (sub a b) \\ \textcolor{darkgreen}{\hspace*{0.5cm}(+ a (* -1 b))} \\) \end{tabular}}};
+					\node[draw,anchor=east] at (-0.5,3) {\texttt{\begin{tabular}{l} (define (add a b) \\ ;;TODO implement\\)\\(define (sub a b) \\ \textcolor{darkgreen}{\hspace*{0.5cm}(- a b)}\\) \end{tabular}}};
+					\node[draw,anchor=east] at (-0.5,5.2) {\tiny\texttt{\begin{tabular}{l} \textcolor{darkgreen}{(define (add a b)} \\ \textcolor{darkgreen}{;;TODO implement}\\\textcolor{darkgreen}{)}\\\textcolor{darkgreen}{(define (sub a b))} \\ \textcolor{darkgreen}{;;TODO implement}\\\textcolor{darkgreen}{)} \end{tabular}}};
+					\node[red] at (2.2,0.8) {Git happens!};
+				\end{tikzpicture}
+			\end{frame}
+			
+			\begin{frame}
+				\frametitle{Merge-Konflikt}
+					\begin{itemize}
+						\item bei Änderungen in der gleichen Zeile der gleichen Datei kann Git die Versionen nicht automatisch zusammenführen
+						\item[$\rightarrow$] Merge-Konflikt
+						\begin{itemize}
+							\item wieder erst \textit{pullen}
+							\item Merge-Konflikt manuell in Datei beheben:\\
+							\lstinputlisting{merge_conflict.rkt}
+							\item \textit{committen} und Commit-Name \textbf{Merge branch 'master' of  ...} ändern
+							\item \textit{pushen}
+						\end{itemize}
+					\end{itemize}
+				
+				\note{'Nummer' -> commit von remote; HEAD -> lokale version}
+			\end{frame}
+			
+			\begin{frame}
+				Demo
+			\end{frame}
+		
+	\subsection{Zusammenfassung}
+		\begin{frame}
+		\frametitle{Rezept}
+			\begin{enumerate}
+				\item \texttt{git pull}
+				\item \textit{Dateien ändern} und mit \texttt{git add} übernehmen
+				\item \texttt{git commit}
+				\item \texttt{git push}\\
+				$\Rightarrow$ Konflikt: \texttt{git pull} $\rightarrow$ \textit{Konflikte beheben} $\rightarrow$ Schritt 3.
+				
+			\end{enumerate}
+		\end{frame}
+		
+	\section{Best Practices}
+
+			\begin{frame}
+				\frametitle{\texttt{.gitignore}-Datei}
+				Mithilfe von \texttt{.gitignore}-Dateien, kann man festlegen, welche Dateien (nicht) mit git synchronisiert werden.
+				\lstinputlisting{example.gitignore}
+			\end{frame}
+			
+			\begin{frame}
+				\frametitle{How to git gud!}
+					\begin{itemize}
+						\item sinnvolle Commit-Mitteilungen schreiben
+						\item Binärdateien u. Ä. in \texttt{.gitignore}-Datei aufnehmen
+						\item spätestens vor \texttt{push} alle Tests laufen lassen
+						\item semantisch zusammenhängende Änderungen in einen Commit packen
+					\end{itemize}
+			\end{frame}
+			
+			\begin{frame}
+				\frametitle{Es git viele weitere Befehle!}
+					\begin{tabular}{ll}
+						\texttt{git pull} & Änderungen herunterladen\\
+						\texttt{git push} & Änderungen hochladen\\
+						\texttt{git add <-A>} & Dateien hinzufügen\\
+						\texttt{git commit <-a>} & Commit erstellen\\
+						\texttt{git diff} & Versionsunterschiede anzeigen\\
+						\texttt{git log} & Versionsgeschichte anzeigen\\
+						\texttt{git show} & Details eines Commits anzeigen\\
+						\texttt{git help} & Hilfe zu Git\\
+						\texttt{git \textit{<Befehl>} -{-}help} & Hilfe zu Git-Befehlen
+					\end{tabular}
+					\vskip 3em
+					$\Rightarrow$ \textbf{Siehe Cheat-Sheet.}
+			\end{frame}
+		
+\section*{Ende}
+		\begin{frame}
+			\frametitle{Vielen Dank für eure Aufmerksamkeit!}
+			\centering
+			\Large{\textbf{Jetzt:} Betreute Übung im großen C-Pool\\(Kellergeschoss, S202)}\\
+			\begin{columns}[T]
+				\begin{column}{.5\textwidth}
+					\begin{itemize}
+						\item Material im d120-Wiki
+						\item Übungen
+						\item Folien
+						\item Cheat-Sheet mit den wichtigsten Befehlen
+					\end{itemize}
+				\end{column}
+				\begin{column}{.5\textwidth}
+					\centering
+					\includesvg[inkscapeformat=png,width=.65\textheight]{wiki_href_qr.svg}
+					{\small\href{https://d120.de/wiki/Git_Einführung}{https://d120.de/wiki/Git\_Einführung}}
+				\end{column}
+			\end{columns}
+		\end{frame}
+		
+%		\begin{frame}
+%			\frametitle{Vielen Dank für eure Aufmerksamkeit!}
+%			\begin{figure}[]
+%				\includegraphics[height=150px]{git_comic}
+%				\caption{https://xkcd.com/1597/}
+%				\label{fig1}
+%			\end{figure}
+%		\end{frame}
+		
+			\begin{frame}
+				\frametitle{Weitere Informationen}
+					\begin{block}{Ausblick}
+						\begin{itemize}
+							\item Branches
+							\item Rebasing (Versionsgeschichte umschreiben)
+							\item uvm.
+						\end{itemize}
+					\end{block}
+					\begin{block}{Weitere Materialien}
+						\begin{itemize}
+							\item Offizielle Dokumentation: \href{https://git-scm.com/doc}{https://git-scm.com/doc}
+							\item Interaktives Tutorial von GitHub: \href{https://try.github.io/}{https://try.github.io/}
+							\item \textit{Pro Git} Buch: \href{https://git-scm.com/book/de}{https://git-scm.com/book/de}
+						\end{itemize}
+					\end{block}
+			\end{frame}
+	
+\end{document}

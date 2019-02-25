@@ -326,7 +326,7 @@
 					\node[very thick] at (0,6.3) {\textbf{A}};
 					\node[very thick] at (2.15,6.3) {\textbf{B}};
 					
-					\node[draw,anchor=west] at (2.65,4) {\texttt{
+					\node[draw,anchor=west] at (2.65,4.4) {\texttt{
 						\begin{tabular}{l}
 							(define (add a b) \\
 							\diffn{\hspace*{0.5cm}(+ a b)}\\
@@ -397,7 +397,7 @@
 							)
 						\end{tabular}}};
 					
-					\node[draw,anchor=east] at (-0.5,5.2) {\small\texttt{
+					\node[draw,anchor=east] at (-0.5,5.4) {\small\texttt{
 						\begin{tabular}{l}
 							\diffn{(define (add a b)} \\ 
 							\diffn{;;TODO implement}\\ 
@@ -407,7 +407,7 @@
 							\diffn{)}
 						\end{tabular}}};
 						
-					\node[draw,anchor=west] at (1.8,1) {\small\texttt{
+					\node[draw,anchor=west] at (2.5,1.6) {\small\texttt{
 						\begin{tabular}{l}
 							(define (add a b) \\ 
 							  \diffn{\hspace*{0.5cm}(+ a b)}\\
@@ -426,6 +426,10 @@
 					\item \texttt{git pull}:\\Änderungen vom Server empfangen und zusammenführen
 					\item \texttt{git push}:\\Die zusammengeführte Version auf den Server übertragen
 				\end{enumerate}
+			\end{frame}
+		
+			\begin{frame}
+				DEMO
 			\end{frame}
 	
 			\begin{frame}
@@ -451,10 +455,6 @@
 					\item \textbf{Lösung:} Versionen lokal zusammenführen
 				\end{itemize}
 			\end{frame}
-		
-		\begin{frame}
-			Demo
-		\end{frame}
 			
 		\subsubsection{Merge-Konflikte}
 			\begin{frame}
@@ -513,7 +513,7 @@
 			\end{frame}
 			
 			\begin{frame}
-				Demo
+				DEMO
 			\end{frame}
 		
 	\subsection{Zusammenfassung}
@@ -567,6 +567,7 @@
 \section*{Ende}
 		\begin{frame}
 			\frametitle{Vielen Dank für eure Aufmerksamkeit!}
+			\vskip -1.5em
 			\centering
 			\Large{\textbf{Jetzt:} Betreute Übung im großen C-Pool\\(Kellergeschoss, S202)}\\
 			\begin{columns}[T]
@@ -580,8 +581,9 @@
 				\end{column}
 				\begin{column}{.5\textwidth}
 					\centering
-					%\includesvg[inkscapeformat=png,width=.65\textheight]{wiki_href_qr.svg}
-					\includegraphics[scale=4.5]{wiki_href_qr}\\
+					\includesvg[inkscapeformat=png,width=.65\textheight]{wiki_href_qr.svg}
+					%\includegraphics[scale=4.5]{wiki_href_qr}\\
+
 					{\small\href{https://d120.de/wiki/Git_Einführung}{https://d120.de/wiki/Git\_Einführung}}
 				\end{column}
 			\end{columns}

@@ -19,7 +19,7 @@
 \lstset{language=sh,basicstyle=\ttfamily\small, keywordstyle=\color{blue!80!black}, identifierstyle=, commentstyle=\color{green!50!black}, stringstyle=\ttfamily,
  tabsize=4, breaklines=true, numbers=left, numberstyle=\small, frame=single, backgroundcolor=\color{blue!3}}
  
-\author{Janika Krull, Tim Pollandt basierend auf Material von Steffen Klees}
+\author{Fachschaft Informatik, TU Darmstadt}
 
 
 \begin{document}
@@ -29,11 +29,11 @@
 \maketitle
 
 \hskip 1 pt\\
-\textbf{Alle Befehle müssen in einem Git-Repository aufgeführt werden!}\\
+\textbf{Alle Befehle müssen in einem Git-Repository ausgeführt werden!}\\
 \textit{\lstinline|<name>| stellt einen Platzhalter dar. z.B. \lstinline|git add <datei>| $\rightarrow$ \lstinline|git add datei.txt|}
 \section*{Einrichtung}
 \begin{itemize}
-	\item Setze den Autor:\\
+	\item Setze \textit{Author}-Informationen:\\
 	\lstinline|git config --global user.email "you@example.com"|\\
 	\lstinline|git config --global user.name "Your Name"|
 
@@ -66,7 +66,7 @@
 	\item \lstinline|git show <ref>|: Zeigt Informationen zu einer bestimmten ref an (inkl. Änderungen).
 	\item \lstinline|git checkout <ref>|: Setzt das Git-Repository auf eine bestimmte ref.
 	\item \lstinline|git diff <ref>..<ref>|: Zeigt die Änderungen (pro Datei) von einer ref zu einer anderen ref an.
-	\item \lstinline|git revert <commit>|: Macht einen Commit rückgängig (erstellt neuen Commit, der alten überschreibt).
+	\item \lstinline|git revert <commit>|: Macht einen Commit rückgängig (erstellt einen neuen Commit, welcher den alten invertiert).
 \end{itemize}
 
 \section*{Zusammenarbeit}
@@ -78,7 +78,7 @@
 \end{itemize}
 
 \section*{.gitignore}
-Wenn man manche Dateien nicht versionieren möchte, kann man diese auf eine Ignorierliste setzen. Dafür wir deine \lstinline|.gitignore|-Datei verwendet.\\
+Wenn man manche Dateien nicht versionieren möchte, kann man diese auf eine Ignorierliste setzen. Dafür wir eine \lstinline|.gitignore|-Datei verwendet.\\
 \textbf{Achtung:} Diese Datei hat keinen Dateinamen, nur eine Dateiendung. Unter Windows ist die Erstellung solch einer Datei im Windows-Explorer nicht möglich. Dafür muss die Datei direkt aus Notepad gespeichert werden, wähle dabei \textbf{keine} Dateiendung aus der Liste aus.\\
 Die Datei enthält die Namen von zu ignorierenden Dateien, dabei können auch Verzeichnisnamen oder "`Wildcards"' verwendet werden.\\
 \\

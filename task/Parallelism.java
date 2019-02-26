@@ -21,7 +21,6 @@ public class Parallelism {
         return 0;
     }
     
-    
     public static void main(String[] args) {
         System.out.println("Area of circle (r=4): " + areaOfCircle(4));
         System.out.println("Volume of sphere (r=2): " + volumeOfSphere(2));

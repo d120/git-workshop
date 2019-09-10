@@ -19,12 +19,12 @@
 \lstset{language=sh,basicstyle=\ttfamily\small, keywordstyle=\color{blue!80!black}, identifierstyle=, commentstyle=\color{green!50!black}, stringstyle=\ttfamily,
  tabsize=4, breaklines=true, numbers=left, numberstyle=\small, frame=single, backgroundcolor=\color{blue!3}}
  
-\author{Fachschaft Informatik, TU Darmstadt}
+\author{Fachschaft Informatik | Fachgebiet Data Management, TU Darmstadt}
 
 
 \begin{document}
 \title{Versionsverwaltung mit Git\\Befehlsreferenz}
-\subtitle{Fachschaft Informatik, TU Darmstadt}
+\subtitle{Fachschaft Informatik | Fachgebiet Data Management, TU Darmstadt}
 \subsubtitle{Stand: \today}
 \maketitle
 
@@ -74,7 +74,12 @@
 	\label{CollabClone}
 	\item \lstinline|git clone <url>|: Klont das Git-Repository von einem Server
 	\item \lstinline|git push|: Lädt Commits auf den Server hoch
-	\item \lstinline|git pull|: Lädt Änderungen vom Server herunter (merged ggf. automatisch oder produziert Merge-Konflikte)
+	\item \lstinline|git fetch --all|: Lädt Änderungen aller Branches vom Server herunter
+	\item \lstinline|git pull|: Lädt Änderungen vom Server herunter und merged ggf. automatisch oder produziert Merge-Konflikte
+	\item \lstinline|git branch|: Listet alle Branches des Git-Repos auf
+	\item \lstinline|git branch <branch>|: Erstellt Branch branch; Parameter -d löscht ihn (-D auch wenn noch nicht gemergt)
+	\item \lstinline|git checkout <branch>|: Wechselt zum Branch branch; Parameter -b erstellt den Branch dabei
+	\item \lstinline|git merge <branch>|: Merged Branch branch in aktuellen Branch
 \end{itemize}
 
 \section*{.gitignore}

@@ -1,9 +1,27 @@
 % !TeX spellcheck = de_DE
 % !TeX document-id = {8f28539b-0e77-467c-988f-5fbde5f3c76b}
 % !TeX TXS-program:compile = txs:///pdflatex/[--shell-escape]
-\documentclass[accentcolor=tud8b,colorbacktitle,inverttitle,landscape,german,presentation,t]{tudbeamer}
-\usepackage[utf8]{inputenc}
-\usepackage[ngerman]{babel}
+%\documentclass[accentcolor=tud8b,colorbacktitle,inverttitle,landscape,german,presentation,t]{tudabeamer}
+\documentclass[
+	% ohne Pause: handout,
+	ngerman, %globale Übergabe der Hauptsprache
+	aspectratio=169, %Beamer eigene Option zum Umschalten des Formates
+	color={accentcolor=8b},
+%	logo=false, %Kein Logo auf Folgeseiten
+	colorframetitle=true,%Akzentfarbe auch im Frametitle
+	%	logofile=example-image, %Falls die Logo Dateien nicht vorliegen
+	authorontitle=true
+]{tudabeamer}
+\usepackage[main=ngerman]{babel}
+
+% Der folgende Block ist nur bei pdfTeX auf Versionen vor April 2018 notwendig
+\usepackage{iftex}
+\ifPDFTeX
+\usepackage[utf8]{inputenc}%kompatibilität mit TeX Versionen vor April 2018
+\fi
+
+%\usepackage[utf8]{inputenc}
+%\usepackage[ngerman]{babel}
 \usepackage{graphicx}
 \usepackage{svg}
 \usepackage{listings}
@@ -37,28 +55,22 @@
 
 \begin{document}
 \title[Git-Workshop]{Wie Git denn das?\\Einführung in die Versionskontrolle mit Git}
-\subtitle{Fachschaft Informatik TU Darmstadt}
+\subtitle{Winterophase \the\year}
 
 \author[]{}
 \institute[Fachschaft Informatik TU Darmstadt]{Fachschaft Informatik TU Darmstadt}
 
-\logo[1]{\includegraphics{bildmarke_ohne_rand}}
+\logo*{\includegraphics{bildmarke_ohne_rand}}
 
 \date{\today}
-
-
-
-\begin{titleframe}
-	\makebox(1,28)[]{}
-	\begin{figure}[ht]
-	\centering
+ 
+\begin{titlepage}
+	
+	\begin{center}
   	\includegraphics[height=60px]{git_logo}
-	\end{figure}
-
-	\vskip0pt plus 1filll
-	%\small Vortrag: Steffen Klee
-	\vskip -1em
-\end{titleframe}
+  	\vspace{1.5cm}
+	\end{center} 
+\end{titlepage}
 
 \begin{frame}
 \frametitle{Übersicht}
@@ -69,22 +81,13 @@
 \section{Warum Git?}
 		\begin{frame}
 			\frametitle{Warum Quellcodeverwaltung?}
+			\vspace{3mm}
 				\begin{tikzpicture}[remember picture, note/.style={ellipse callout, fill=red!50}]
     				\node [note=blue!50, text width=3.5cm, opacity=0.90, overlay, callout absolute pointer={(-0.3,-2)}] at (3,-0.2) {Ich habe euch meinen Code doch per E-Mail geschickt.};
   				\end{tikzpicture}
   				\begin{tikzpicture}[remember picture, note/.style={ellipse callout, fill=green!50}]
     				\node [note=blue!50, text width=4cm, opacity=0.90, overlay, callout absolute pointer={(12.3,-2)}] at (8.5,-1.5) {Nein, die andere E-Mail!};
-  				\end{tikzpicture}
-		\end{frame}
-
-		\begin{frame}
-			\frametitle{Warum Quellcodeverwaltung?}
-				\begin{tikzpicture}[remember picture, note/.style={ellipse callout, fill=red!50}]
-    				\node [note=blue!50, text width=3.5cm, opacity=0.90, overlay, callout absolute pointer={(-0.3,-2)}] at (3,-0.2) {Ich habe euch meinen Code doch per E-Mail geschickt.};
-  				\end{tikzpicture}
-  				\begin{tikzpicture}[remember picture, note/.style={ellipse callout, fill=green!50}]
-    				\node [note=blue!50, text width=4cm, opacity=0.90, overlay, callout absolute pointer={(12.3,-2)}] at (8.5,-1.5) {Nein, die andere E-Mail!};
-  				\end{tikzpicture}
+  				\end{tikzpicture}\pause
   				
   				\begin{tikzpicture}[remember picture, note/.style={ellipse callout, fill=red!50}]
     				\node [note=blue!50, text width=3.5cm, opacity=0.90, overlay, callout absolute pointer={(-0.3,-2)}] at (3,-3) {Jaja, ich lege es gleich in die Cloud.};
@@ -144,7 +147,7 @@
 	 \subsection{Normalfall}
 		\begin{frame}
 			\frametitle{Funktionsweise}
-				\vskip -1em
+				\vskip -0.75em
 				\begin{tikzpicture}
 					\definecolor{lightblue}{HTML}{7F7FFF}
 					\definecolor{darkgreen}{HTML}{00A700}
@@ -175,7 +178,7 @@
 					% commit diffs
 					
 					%% 1st commit
-					\node<1->[draw,fill=white,anchor=west] at (3.5,5.15) {\footnotesize\texttt{
+					\node<1->[draw,fill=white,anchor=west] at (3.5,4.9) {\footnotesize\texttt{
 						\begin{tabular}{rl}
 							\diffp{int add(int a, int b)\{}\\
 							\diffp{// TODO implement}\\
@@ -186,7 +189,7 @@
 						\end{tabular}}};
 						
 					%% 2nd commit
-					\node<2->[draw,fill=white,anchor=west] at (5,4) {\small\texttt{
+					\node<2->[draw,fill=white,anchor=west] at (5.5,3.75) {\small\texttt{
 						\begin{tabular}{rl}
 							&int add(int a, int b)\{\\
 							\diffm{// TODO implement} \\
@@ -195,7 +198,7 @@
 						\end{tabular}}};
 	
 					%% 3rd commit
-					\node<3->[draw,fill=white,anchor=west] at (3.5,2.35) {\small\texttt{
+					\node<3->[draw,fill=white,anchor=west] at (3.5,2.1) {\small\texttt{
 						\begin{tabular}{rl}
 							&int sub(int a, int b)\{\\
 							\diffm{// TODO implement} \\
@@ -204,7 +207,7 @@
 						\end{tabular}}};
 					
 					%% 4th commit
-					\node<4->[draw,fill=white,anchor=west] at (5,0.75) {\small\texttt{
+					\node<4->[draw,fill=white,anchor=west] at (5.5,0.75) {\small\texttt{
 						\begin{tabular}{rl}
 							&int add(int a, int b)\{\\
 							\diffp{// TODO implement} \\
@@ -222,8 +225,8 @@
 					\begin{tikzpicture}
 						\definecolor{darkgreen}{HTML}{00A700}
 						
-						\node [cloud,fill=blue!30,draw,cloud puffs=9,cloud puff arc=150,aspect=2,inner ysep=0.8em] at (0.35,3.5) {Server};
-						\node [cylinder,cylinder uses custom fill,cylinder body fill=yellow!50,cylinder end fill=yellow!30,shape border rotate=90,aspect=0.25,draw] at (0.35,0.3) {lokales Verzeichnis};
+						\node [cloud,fill=blue!30,draw,cloud puffs=9,cloud puff arc=150,aspect=2,inner ysep=0.8em] at (0.5,3.5) {Server};
+						\node [cylinder,cylinder uses custom fill,cylinder body fill=yellow!50,cylinder end fill=yellow!30,shape border rotate=90,aspect=0.25,draw] at (0.5,0.3) {lokales Verzeichnis};
 						
 						% document
 						\draw (-5,0) -- (-5,1.2) -- (-4.3,1.2) -- (-4.3,0.8) -- (-4,0.8) -- (-4,0) -- cycle;
@@ -248,10 +251,10 @@
 						\node[anchor=west] at (-3.85,0.95) {};
 						\node[anchor=west] at (-3.85,0.15) {\flownumber{4}\texttt{git commit}};
 						
-						\draw[<-,very thick,red] (0.2,0.9) -- (0.2,2.6);
-						\draw[->,very thick,darkgreen] (0.5,0.9) -- (0.5,2.6);
-						\node[anchor=east] at (0.15,2) {\flownumber{1}\texttt{git pull}};
-						\node[anchor=west] at (0.55,2) {\flownumber{5}\texttt{git push}};
+						\draw[<-,very thick,red] (0.35,0.9) -- (0.35,2.6);
+						\draw[->,very thick,darkgreen] (0.65,0.9) -- (0.65,2.6);
+						\node[anchor=east] at (0.3,2) {\flownumber{1}\texttt{git pull}};
+						\node[anchor=west] at (0.7,2) {\flownumber{5}\texttt{git push}};
 					\end{tikzpicture}
 		\end{frame}
 	
@@ -265,7 +268,7 @@
 			\begin{frame}
 				\frametitle{Gleichzeitiges Bearbeiten}
 					\centering
-					\vskip -1.2em
+					\vskip -1em
 					\begin{tikzpicture}
 					\definecolor{lightblue}{HTML}{7F7FFF}
 					\definecolor{darkgreen}{HTML}{00A700}
@@ -312,7 +315,7 @@
 			\begin{frame}
 				\frametitle{Gleichzeitiges Bearbeiten}
 					\centering
-					\vskip -1.2em
+					\vskip -1em
 					\begin{tikzpicture}
 					\definecolor{lightblue}{HTML}{7F7FFF}
 					\definecolor{darkgreen}{HTML}{C07700}
@@ -363,7 +366,7 @@
 			\begin{frame}
 				\frametitle{Gleichzeitiges Bearbeiten}
 					\centering
-					\vskip -1.2em
+					\vskip -1em
 					\begin{tikzpicture}
 					\definecolor{lightblue}{HTML}{7F7FFF}
 					\definecolor{darkgreen}{HTML}{C07700}
@@ -575,7 +578,7 @@
 		\begin{frame}
 		\frametitle{Branching}
 		\centering
-		\vskip -1.2em
+		\vskip -1em
 		\begin{tikzpicture}
 		\definecolor{lightblue}{HTML}{7F7FFF}
 		\definecolor{darkgreen}{HTML}{C07700}
@@ -608,7 +611,7 @@
 		\begin{frame}
 			\frametitle{Branching \--- \texttt{feature}-Branches}
 			\centering
-			\vskip -1.2em
+			\vskip -1em
 			\begin{tikzpicture}
 			\definecolor{lightblue}{HTML}{7F7FFF}
 			\definecolor{darkgreen}{HTML}{C07700}
@@ -646,7 +649,7 @@
 		\begin{frame}
 			\frametitle{Branching \--- \texttt{develop}-Branch}
 			\centering
-			\vskip -1.2em
+			\vskip -1em
 			\begin{tikzpicture}
 			\definecolor{lightblue}{HTML}{7F7FFF}
 			\definecolor{darkgreen}{HTML}{C07700}
@@ -692,7 +695,7 @@
 	\begin{frame}
 		\frametitle{Branching \--- Hotfixes}
 		\centering
-		\vskip -1.2em
+		\vskip -1em
 		\begin{tikzpicture}
 		\definecolor{lightblue}{HTML}{7F7FFF}
 		\definecolor{darkgreen}{HTML}{C07700}
@@ -746,7 +749,7 @@
 		\begin{frame}
 		\frametitle{Branching}
 		\centering
-		\vskip -1.2em
+		\vskip -0.5em
 		\begin{tikzpicture}
 		\definecolor{lightblue}{HTML}{7F7FFF}
 		\definecolor{darkgreen}{HTML}{C07700}

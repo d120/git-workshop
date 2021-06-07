@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: apt install inkscape
+      - name: Install Inkscape for SVGs
+        run: sudo apt install inkscape
       - name: Compile presentation
         uses: dante-ev/latex-action@v0.2.0
         with:
